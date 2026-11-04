@@ -1,7 +1,8 @@
 import { applyRules, isDrifting, type Rule } from "../rules/engine";
 import type { Project, Section, Task } from "../todoist/types";
 import { todayStr } from "../util/dates";
-import { $, colorOf, dot, el } from "./dom";
+import { projectUrl, sectionUrl } from "../todoist/links";
+import { $, colorOf, dot, el, popout } from "./dom";
 import { taskRow, type RowActions } from "./taskRow";
 
 export interface BoardView {
@@ -86,7 +87,7 @@ export function drawBoard(v: BoardView, actions: RowActions): void {
     const h = el("h2");
     const sw = el("span", "swatch");
     sw.style.background = colorOf(p.color);
-    h.append(sw, p.name);
+    h.append(sw, p.name, popout(projectUrl(p.id), p.name));
     const count = el("span", "count mono", String(list.length));
     head.append(h, count);
 
@@ -101,7 +102,11 @@ export function drawBoard(v: BoardView, actions: RowActions): void {
       for (const [sid, ts] of groups) {
         if (!ts.length) continue;
         const name = sid ? secs.find((s) => s.id === sid)?.name ?? "Section" : secs.length ? "No section" : "";
-        if (name) body.appendChild(el("div", "group-label", `${name} · ${ts.length}`));
+        if (name) {
+          const label = el("div", "group-label", `${name} · ${ts.length}`);
+          if (sid) label.appendChild(popout(sectionUrl(sid), "section " + name));
+          body.appendChild(label);
+        }
         const ul = el("ul", "tasks");
         for (const t of ts) ul.appendChild(taskRow(t, v.projects, actions, rowOpts));
         body.appendChild(ul);

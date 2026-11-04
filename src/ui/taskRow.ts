@@ -1,6 +1,7 @@
 import type { Project, Task } from "../todoist/types";
 import { ageText, dayDiff, daysSince, shortDate, todayStr } from "../util/dates";
-import { dot, el } from "./dom";
+import { taskUrl } from "../todoist/links";
+import { dot, el, popout } from "./dom";
 
 export interface RowActions {
   complete(t: Task, row: HTMLElement): void;
@@ -34,7 +35,9 @@ export function taskRow(t: Task, projects: Project[], actions: RowActions, opts:
   check.addEventListener("click", () => actions.complete(t, li));
 
   const body = el("div", "body");
-  body.appendChild(el("div", "content", t.content));
+  const content = el("div", "content");
+  content.append(el("span", null, t.content), popout(taskUrl(t.id), "task “" + t.content + "”"));
+  body.appendChild(content);
 
   const meta = el("div", "meta");
   if (t.dueDate) {

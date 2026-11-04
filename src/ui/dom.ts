@@ -29,3 +29,20 @@ export function dot(color: string | undefined): HTMLSpanElement {
   d.style.background = colorOf(color);
   return d;
 }
+
+const POPOUT_SVG =
+  '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M9.5 2.5h4v4M13.5 2.5 7.5 8.5M12 9.5v3a1 1 0 0 1-1 1H3.5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3"/></svg>';
+
+/** Small "open in Todoist" link that sits beside a label. Opens in a new tab or the Todoist app. */
+export function popout(url: string, what: string): HTMLAnchorElement {
+  const a = el("a", "popout");
+  a.href = url;
+  a.target = "_blank";
+  a.rel = "noopener";
+  a.title = "Open in Todoist";
+  a.setAttribute("aria-label", "Open " + what + " in Todoist");
+  a.innerHTML = POPOUT_SVG;
+  // Inside a <summary>, don't also fold or unfold the list.
+  a.addEventListener("click", (e) => e.stopPropagation());
+  return a;
+}

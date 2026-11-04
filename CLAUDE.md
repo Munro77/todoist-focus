@@ -24,6 +24,7 @@ Run `npm test` and `npm run build` before considering a change done.
 - `src/rules/engine.ts`: rule types, `Fact` fields available to rules, sorting, `applyRules`. Pure functions; keep them pure and tested.
 - `src/todoist/client.ts`: HTTP client (`sync` + `closeTask`). `TodoistApi` interface is shared with the mock.
 - `src/todoist/commands.ts`: sync command builders (move, add, set due, uncomplete).
+- `src/todoist/links.ts`: web links into Todoist (task/project/section). Shown as small pop-out icons beside names, never by making titles themselves links.
 - `src/todoist/store.ts`: local mirror of the account, applies sync responses; `toTask` normalizes API items.
 - `src/app.ts`: state, polling, optimistic updates, actions.
 - `src/ui/`: DOM rendering (`board.ts`, `taskRow.ts`, `toast.ts`).

@@ -162,3 +162,10 @@ details.panel { background: var(--surface); border: 1px solid var(--line); borde
   #top:not(.show-more) .legend { display: none; }
   .fresh { font-size: 0.75rem; margin-top: -2px; }
 }
+
+/* "Open in Todoist" pop-out links beside list, section and task names */
+.popout { display: inline-grid; place-items: center; width: 22px; height: 22px; margin-left: 4px; vertical-align: middle; border-radius: 6px; color: var(--muted); opacity: 0.55; text-decoration: none; }
+.popout svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.popout:hover, .popout:focus-visible { opacity: 1; color: var(--accent); background: var(--accent-soft); }
+.group-label .popout { width: 20px; height: 20px; margin-left: 2px; }
+@media (hover: none) { .popout { opacity: 0.8; width: 28px; height: 28px; margin-block: -3px; } }
