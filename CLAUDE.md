@@ -1,6 +1,6 @@
-# Focus Board — notes for Claude
+# Rob's Focus Today — notes for Claude
 
-Personal Todoist dashboard for Rob. A static site (Vite + TypeScript, no framework) that talks straight from the browser to the Todoist API v1 with a personal token the user pastes in. Deployed to GitHub Pages by `.github/workflows/deploy.yml`.
+Personal Todoist dashboard for Rob (app name: "Rob's Focus Today"; title in `index.html` and `public/manifest.webmanifest`). A static site (Vite + TypeScript, no framework) that talks straight from the browser to the Todoist API v1 with a personal token the user pastes in. Deployed to GitHub Pages by `.github/workflows/deploy.yml`.
 
 ## Commands
 
@@ -10,6 +10,13 @@ Personal Todoist dashboard for Rob. A static site (Vite + TypeScript, no framewo
 - `npm run build`: type-check, then build to `dist/`.
 
 Run `npm test` and `npm run build` before considering a change done.
+
+## Deploying
+
+- Pages source is **GitHub Actions**. Every push to `main` runs tests, builds and deploys; PRs only test and build. Live at https://munro77.github.io/todoist-focus/.
+- Rob's workflow so far: small changes are committed straight to `main` and pushed, then confirm the "Test and deploy" run finishes. Ask first before anything large or risky.
+- If `actions/deploy-pages` hangs ("deployment in progress" until it times out) or reports "Deployment cancelled", it's GitHub Pages, not the workflow. Don't re-run the old run (Pages cancels it); start a fresh run with workflow_dispatch instead.
+- No `package-lock.json` yet, so the workflow uses `npm install`. Once a lockfile is committed, switch it to `npm ci`.
 
 ## Layout
 
@@ -22,6 +29,10 @@ Run `npm test` and `npm run build` before considering a change done.
 - `src/ui/`: DOM rendering (`board.ts`, `taskRow.ts`, `toast.ts`).
 - `src/mock/mockApi.ts`: in-memory Todoist for `?mock` / `dev:mock`.
 - `index.html` + `src/styles.css`: markup and styles. Colors are CSS tokens with light and dark values.
+
+## Phone layout
+
+Rob uses it mostly on iPhone as a Home Screen app. At ≤640px the header collapses to the title, four icon buttons (add, search, refresh, more) and the colour strip, so tasks fill the screen. Panels toggle via `show-<name>` classes on `#top` (wired in `main.ts`); closing search clears the query. Keep phone screens task-first: anything new in the header should be behind a button on mobile.
 
 ## Todoist API facts (verified against Doist's own SDK)
 
