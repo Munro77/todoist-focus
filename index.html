@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Focus Board</title>
+<meta name="theme-color" content="#f3f5f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#11161c" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Focus">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="referrer" content="no-referrer">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+</head>
+<body>
+
+<main class="setup" id="setup" hidden>
+  <h1>Focus Board</h1>
+  <p>Your Todoist tasks, sorted by your own focus rules. To connect, paste your Todoist API token. It's saved only in this browser on this device and is sent only to Todoist.</p>
+  <ol>
+    <li>Open <a href="https://app.todoist.com/app/settings/integrations/developer" target="_blank" rel="noopener">Todoist → Settings → Integrations → Developer</a>.</li>
+    <li>Copy the API token and paste it below.</li>
+  </ol>
+  <form id="setup-form" autocomplete="off">
+    <label for="token-in">API token</label>
+    <div class="setup-row">
+      <input id="token-in" type="password" inputmode="text" spellcheck="false" autocapitalize="off" placeholder="Paste token" required>
+      <button class="btn primary" id="setup-go" type="submit">Connect</button>
+    </div>
+  </form>
+  <p class="setup-msg" id="setup-msg" hidden></p>
+  <p class="fine">Anyone with this device's browser profile could read the saved token. Use "Forget token" to remove it. You can also reset the token anytime from the same Todoist page.</p>
+</main>
+<div class="wrap" id="app" hidden>
+  <header>
+    <div class="top">
+      <h1>Focus Board <span class="tag" id="mock-flag" hidden>sample data</span></h1>
+      <div class="top-right">
+        <input type="search" id="q" placeholder="Search all tasks" aria-label="Search all tasks">
+        <button class="btn" id="refresh" type="button">Refresh</button>
+        <button class="btn quiet" id="signout" type="button">Forget token</button>
+      </div>
+    </div>
+    <form class="add" id="add-form" autocomplete="off">
+      <input type="text" id="new-title" placeholder="New task" aria-label="New task title" required maxlength="500">
+      <select id="new-proj" aria-label="List"><option value="inbox">Inbox</option></select>
+      <input type="date" id="new-due" aria-label="Due date (optional)" title="Due date (optional)">
+      <button class="btn primary" id="new-add" type="submit">Add</button>
+    </form>
+    <div class="strip" id="strip" aria-hidden="true"></div>
+    <div class="legend" id="legend"><span>Loading your Todoist lists…</span></div>
+    <div class="fresh" id="fresh"></div>
+    <div class="banner" id="banner" hidden></div>
+  </header>
+
+  <section class="panel now" aria-labelledby="focus-h">
+    <div class="panel-head"><h2 id="focus-h">Today’s Focus <span class="tag">rules</span></h2><span class="count mono" id="focus-count"></span></div>
+    <div class="focus-grid" id="focus-body"><div class="empty">Your focus groups will appear here once your lists load.</div></div>
+    <div class="note" id="focus-src"></div>
+  </section>
+
+  <div class="lanes" id="lanes"></div>
+  <div id="folded"></div>
+</div>
+
+<div class="toast" id="toast" hidden role="status"><span id="toast-msg"></span><button type="button" id="toast-undo" hidden>Undo</button></div>
+
+<script type="module" src="/src/main.ts"></script>
+</body>
+</html>
