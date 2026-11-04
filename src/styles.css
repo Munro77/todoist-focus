@@ -137,3 +137,28 @@ details.panel { background: var(--surface); border: 1px solid var(--line); borde
 .setup-row input { flex: 1; min-width: 0; font: inherit; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); }
 .setup-msg { color: var(--danger) !important; }
 .fine { font-size: 0.82rem; }
+
+/* Compact header on phones: title + icon tools + the colour strip. Search, add, legend and token controls open on demand. */
+.mtools { display: none; gap: 6px; }
+.ibtn { width: 38px; height: 38px; display: grid; place-items: center; border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 10px; padding: 0; }
+.ibtn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+.ibtn svg .fill { fill: currentColor; stroke: none; }
+.ibtn[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+@media (max-width: 640px) {
+  .wrap { gap: 14px; padding-block: 10px 48px; }
+  header { gap: 8px; }
+  .top { gap: 8px; }
+  h1 { font-size: 1.2rem; min-width: 0; }
+  .mtools { display: flex; flex-shrink: 0; }
+  .top-right { display: none; }
+  #top.show-search .top-right, #top.show-more .top-right { display: flex; }
+  .top { flex-wrap: wrap; }
+  .top-right { width: 100%; }
+  #top .top-right #refresh { display: none; }
+  #top:not(.show-search) #q { display: none; }
+  #top.show-search #q { width: auto; flex: 1; }
+  #top:not(.show-more) #signout { display: none; }
+  #top:not(.show-add) .add { display: none; }
+  #top:not(.show-more) .legend { display: none; }
+  .fresh { font-size: 0.75rem; margin-top: -2px; }
+}

@@ -133,6 +133,34 @@ $("add-form").addEventListener("submit", async (ev) => {
   titleIn.focus();
 });
 $("refresh").addEventListener("click", () => void app?.refresh());
+$("refresh-m").addEventListener("click", () => void app?.refresh());
+
+// Phone header: each tool button opens its panel; opening one closes the others.
+const top = $("top");
+const panelFocus: Record<string, string> = { add: "new-title", search: "q" };
+for (const b of document.querySelectorAll<HTMLButtonElement>("[data-panel]")) {
+  b.addEventListener("click", () => {
+    const name = b.dataset.panel!;
+    const opening = !top.classList.contains("show-" + name);
+    for (const o of document.querySelectorAll<HTMLButtonElement>("[data-panel]")) {
+      top.classList.remove("show-" + o.dataset.panel);
+      o.setAttribute("aria-pressed", "false");
+    }
+    if (opening) {
+      top.classList.add("show-" + name);
+      b.setAttribute("aria-pressed", "true");
+      const f = panelFocus[name];
+      if (f) $(f).focus();
+    } else if (name === "search") {
+      // Closing search clears it so the board isn't left filtered out of sight.
+      const q = $<HTMLInputElement>("q");
+      if (q.value) {
+        q.value = "";
+        app?.setQuery("");
+      }
+    }
+  });
+}
 
 // Boot
 if (mock) {
